@@ -1,0 +1,53 @@
+version: 2
+
+sources:
+
+  - name: stage
+    database: "{{ env_var('DB_DATABASE') }}"
+    schema: "{{ env_var('SOURCE_SCHEMA', 'stage') }}"
+    tables:
+      - name: source_events
+        meta:
+          dagster:
+            asset_key: ["load_sample_source_events"]
+
+  - name: vocab
+    database: "{{ env_var('DB_DATABASE') }}"
+    schema: "{{ env_var('VOCAB_SCHEMA', 'cdm_omop_vocabulary') }}"
+    tables:
+      - name: CONCEPT
+        meta:
+          dagster:
+            asset_key: ["raw_concept"]
+      - name: CONCEPT_RELATIONSHIP
+        meta:
+          dagster:
+            asset_key: ["raw_concept_relationship"]
+      - name: CONCEPT_ANCESTOR
+        meta:
+          dagster:
+            asset_key: ["raw_concept_ancestor"]
+      - name: CONCEPT_CLASS
+        meta:
+          dagster:
+            asset_key: ["raw_concept_class"]
+      - name: CONCEPT_SYNONYM
+        meta:
+          dagster:
+            asset_key: ["raw_concept_synonym"]
+      - name: DOMAIN
+        meta:
+          dagster:
+            asset_key: ["raw_domain"]
+      - name: DRUG_STRENGTH
+        meta:
+          dagster:
+            asset_key: ["raw_drug_strength"]
+      - name: RELATIONSHIP
+        meta:
+          dagster:
+            asset_key: ["raw_relationship"]
+      - name: VOCABULARY
+        meta:
+          dagster:
+            asset_key: ["raw_vocabulary"]

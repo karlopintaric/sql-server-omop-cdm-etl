@@ -1,0 +1,55 @@
+tls:
+  certificates:
+    - certFile: /certs/fullchain.crt
+      keyFile: /certs/rsa.key
+
+http:
+  routers:
+    # 1. OAuth2 Callback Router (No auth check needed here!)
+    oauth2-router:
+      rule: "Host(`${ETL_HOST}`) && PathPrefix(`/oauth2`)"
+      entryPoints:
+        - websecure
+      service: oauth2-service
+      tls: {}
+
+    # 2. Dagster Router (Protected)
+    dagster-router:
+      rule: "Host(`${ETL_HOST}`)"
+      entryPoints:
+        - websecure
+      service: dagster-service
+      middlewares:
+        - oauth-errors  # <--- MUST BE FIRST
+        - auth-verify
+      tls: {}
+
+  services:
+    oauth2-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:4180"
+
+    dagster-service:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1:3000"
+        passHostHeader: false
+
+  middlewares:
+    auth-verify:
+      forwardAuth:
+        address: "http://127.0.0.1:4180/oauth2/auth"
+        trustForwardHeader: true
+        authResponseHeaders:
+          - "X-Auth-Request-User"
+          - "X-Auth-Request-Email"
+          - "Authorization"
+
+    # The redirect handler
+    oauth-errors:
+      errors:
+        status:
+          - "401"
+        service: oauth2-service
+        query: "/oauth2/sign_in"

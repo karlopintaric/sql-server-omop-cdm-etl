@@ -1,0 +1,18 @@
+[Unit]
+Description=Dagster Daemon
+After=network.target
+
+[Service]
+Type=simple
+User=your-username
+Group=your-group
+WorkingDirectory=%h/sqlserver-dagster-dbt-omop-etl
+Environment="DAGSTER_HOME=%h/.local/share/dagster/home"
+Environment="DAGSTER_DEPLOYMENT=prod"
+Environment="PATH=%h/sqlserver-dagster-dbt-omop-etl/.venv/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=%h/sqlserver-dagster-dbt-omop-etl/.venv/bin/dagster-daemon run
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

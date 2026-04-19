@@ -1,0 +1,46 @@
+# ============================================================================
+# DAGSTER DEPLOYMENT CONFIGURATION
+# ============================================================================
+
+# Run coordinator - coordinates queued job execution
+run_coordinator:
+  module: dagster.core.run_coordinator
+  class: QueuedRunCoordinator
+
+# Storage configuration - PostgreSQL metadata database
+storage:
+  postgres:
+    postgres_db:
+      hostname: localhost         # Container name from docker-compose
+      username:
+        env: DAGSTER_POSTGRES_USER         # Environment variable
+      password:
+        env: DAGSTER_POSTGRES_PASSWORD     # Environment variable
+      db_name:
+        env: DAGSTER_POSTGRES_DB           # Environment variable
+      port: 5455                          # Standard PostgreSQL port
+
+# Compute log manager - stores job execution logs
+compute_logs:
+  module: dagster.core.storage.local_compute_log_manager
+  class: LocalComputeLogManager
+  config:
+    base_dir:
+      env: DAGSTER_LOGS_DIR
+
+# Artifact storage - stores job artifacts
+local_artifact_storage:
+  module: dagster.core.storage.root
+  class: LocalArtifactStorage
+  config:
+    base_dir:
+      env: DAGSTER_ARTIFACTS_DIR
+
+run_retries:
+  enabled: true
+  max_retries: 3
+  retry_on_asset_or_op_failure: true
+
+# Allows opting out of Dagster collecting usage statistics.
+telemetry:
+  enabled: false

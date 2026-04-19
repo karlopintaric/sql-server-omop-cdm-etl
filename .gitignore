@@ -1,0 +1,55 @@
+.venv/
+.env
+.vscode/
+
+# Python build/test tooling
+*.py[codz]
+*$py.class
+*.so
+.Python
+build/
+dist/
+.eggs/
+*.egg
+*.egg-info/
+.installed.cfg
+MANIFEST
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.hypothesis/
+.ipynb_checkpoints/
+.pdm-python
+.pdm-build/
+.pixi/
+
+# Cache and logs
+__pycache__/
+*.log
+.tmp*
+
+# dbt
+dbt_packages/
+target/
+.user*
+profiles.yml
+
+# Seed and data files
+seeds/
+#data/
+#*.csv
+
+secrets.toml
+
+
+# Certificates
+*.pem
+*.crt
+*.key
+*.cer

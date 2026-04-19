@@ -1,0 +1,7 @@
+macros/
+target/
+dbt_packages/
+dbt-env/
+logs/
+seeds/
+scripts/

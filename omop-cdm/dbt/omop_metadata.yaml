@@ -1,0 +1,376 @@
+person:
+  primary_key:
+    name: pk_person
+    columns: [person_id]
+  indexes:
+    - name: idx_person_id
+      columns: [person_id]
+      clustered: true
+    - name: idx_gender
+      columns: [gender_concept_id]
+
+observation_period:
+  primary_key:
+    name: pk_observation_period
+    columns: [observation_period_id]
+  indexes:
+    - name: idx_observation_period_id_1
+      columns: [person_id]
+      clustered: true
+
+visit_occurrence:
+  primary_key:
+    name: pk_visit_occurrence
+    columns: [visit_occurrence_id]
+  indexes:
+    - name: idx_visit_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_visit_concept_id_1
+      columns: [visit_concept_id]
+
+visit_detail:
+  primary_key:
+    name: pk_visit_detail
+    columns: [visit_detail_id]
+  indexes:
+    - name: idx_visit_det_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_visit_det_concept_id_1
+      columns: [visit_detail_concept_id]
+    - name: idx_visit_det_occ_id
+      columns: [visit_occurrence_id]
+
+condition_occurrence:
+  primary_key:
+    name: pk_condition_occurrence
+    columns: [condition_occurrence_id]
+  indexes:
+    - name: idx_condition_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_condition_concept_id_1
+      columns: [condition_concept_id]
+    - name: idx_condition_visit_id_1
+      columns: [visit_occurrence_id]
+
+drug_exposure:
+  primary_key:
+    name: pk_drug_exposure
+    columns: [drug_exposure_id]
+  indexes:
+    - name: idx_drug_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_drug_concept_id_1
+      columns: [drug_concept_id]
+    - name: idx_drug_visit_id_1
+      columns: [visit_occurrence_id]
+
+procedure_occurrence:
+  primary_key:
+    name: pk_procedure_occurrence
+    columns: [procedure_occurrence_id]
+  indexes:
+    - name: idx_procedure_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_procedure_concept_id_1
+      columns: [procedure_concept_id]
+    - name: idx_procedure_visit_id_1
+      columns: [visit_occurrence_id]
+
+device_exposure:
+  primary_key:
+    name: pk_device_exposure
+    columns: [device_exposure_id]
+  indexes:
+    - name: idx_device_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_device_concept_id_1
+      columns: [device_concept_id]
+    - name: idx_device_visit_id_1
+      columns: [visit_occurrence_id]
+
+measurement:
+  primary_key:
+    name: pk_measurement
+    columns: [measurement_id]
+  indexes:
+    - name: idx_measurement_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_measurement_concept_id_1
+      columns: [measurement_concept_id]
+    - name: idx_measurement_visit_id_1
+      columns: [visit_occurrence_id]
+
+observation:
+  primary_key:
+    name: pk_observation
+    columns: [observation_id]
+  indexes:
+    - name: idx_observation_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_observation_concept_id_1
+      columns: [observation_concept_id]
+    - name: idx_observation_visit_id_1
+      columns: [visit_occurrence_id]
+
+death:
+  primary_key:
+    name: pk_death
+    columns: [person_id]
+  indexes:
+    - name: idx_death_person_id_1
+      columns: [person_id]
+      clustered: true
+
+note:
+  primary_key:
+    name: pk_note
+    columns: [note_id]
+  indexes:
+    - name: idx_note_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_note_concept_id_1
+      columns: [note_type_concept_id]
+    - name: idx_note_visit_id_1
+      columns: [visit_occurrence_id]
+
+note_nlp:
+  primary_key:
+    name: pk_note_nlp
+    columns: [note_nlp_id]
+  indexes:
+    - name: idx_note_nlp_note_id_1
+      columns: [note_id]
+      clustered: true
+    - name: idx_note_nlp_concept_id_1
+      columns: [note_nlp_concept_id]
+
+specimen:
+  primary_key:
+    name: pk_specimen
+    columns: [specimen_id]
+  indexes:
+    - name: idx_specimen_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_specimen_concept_id_1
+      columns: [specimen_concept_id]
+
+fact_relationship:
+  primary_key:
+    name: pk_fact_relationship
+    columns: [domain_concept_id_1, domain_concept_id_2, relationship_concept_id]
+  indexes:
+    - name: idx_fact_relationship_id1
+      columns: [domain_concept_id_1]
+    - name: idx_fact_relationship_id2
+      columns: [domain_concept_id_2]
+    - name: idx_fact_relationship_id3
+      columns: [relationship_concept_id]
+
+location:
+  primary_key:
+    name: pk_location
+    columns: [location_id]
+  indexes:
+    - name: idx_location_id_1
+      columns: [location_id]
+      clustered: true
+
+care_site:
+  primary_key:
+    name: pk_care_site
+    columns: [care_site_id]
+  indexes:
+    - name: idx_care_site_id_1
+      columns: [care_site_id]
+      clustered: true
+
+provider:
+  primary_key:
+    name: pk_provider
+    columns: [provider_id]
+  indexes:
+    - name: idx_provider_id_1
+      columns: [provider_id]
+      clustered: true
+
+payer_plan_period:
+  primary_key:
+    name: pk_payer_plan_period
+    columns: [payer_plan_period_id]
+  indexes:
+    - name: idx_period_person_id_1
+      columns: [person_id]
+      clustered: true
+
+cost:
+  primary_key:
+    name: pk_cost
+    columns: [cost_id]
+  indexes:
+    - name: idx_cost_event_id
+      columns: [cost_event_id]
+
+drug_era:
+  primary_key:
+    name: pk_drug_era
+    columns: [drug_era_id]
+  indexes:
+    - name: idx_drug_era_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_drug_era_concept_id_1
+      columns: [drug_concept_id]
+
+dose_era:
+  primary_key:
+    name: pk_dose_era
+    columns: [dose_era_id]
+  indexes:
+    - name: idx_dose_era_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_dose_era_concept_id_1
+      columns: [drug_concept_id]
+
+condition_era:
+  primary_key:
+    name: pk_condition_era
+    columns: [condition_era_id]
+  indexes:
+    - name: idx_condition_era_person_id_1
+      columns: [person_id]
+      clustered: true
+    - name: idx_condition_era_concept_id_1
+      columns: [condition_concept_id]
+
+metadata:
+  primary_key:
+    name: pk_metadata
+    columns: [metadata_id]
+  indexes:
+    - name: idx_metadata_concept_id_1
+      columns: [metadata_concept_id]
+      clustered: true
+
+concept:
+  primary_key:
+    name: pk_concept
+    columns: [concept_id]
+  indexes:
+    - name: idx_concept_concept_id
+      columns: [concept_id]
+      clustered: true
+    - name: idx_concept_code
+      columns: [concept_code]
+    - name: idx_concept_vocabulary_id
+      columns: [vocabulary_id]
+    - name: idx_concept_domain_id
+      columns: [domain_id]
+    - name: idx_concept_class_id
+      columns: [concept_class_id]
+
+vocabulary:
+  primary_key:
+    name: pk_vocabulary
+    columns: [vocabulary_id]
+  indexes:
+    - name: idx_vocabulary_vocabulary_id
+      columns: [vocabulary_id]
+      clustered: true
+
+domain:
+  primary_key:
+    name: pk_domain
+    columns: [domain_id]
+  indexes:
+    - name: idx_domain_domain_id
+      columns: [domain_id]
+      clustered: true
+
+concept_class:
+  primary_key:
+    name: pk_concept_class
+    columns: [concept_class_id]
+  indexes:
+    - name: idx_concept_class_class_id
+      columns: [concept_class_id]
+      clustered: true
+
+concept_relationship:
+  primary_key:
+    name: pk_concept_relationship
+    columns: [concept_id_1, concept_id_2, relationship_id]
+  indexes:
+    - name: idx_concept_relationship_id_1
+      columns: [concept_id_1]
+      clustered: true
+    - name: idx_concept_relationship_id_2
+      columns: [concept_id_2]
+    - name: idx_concept_relationship_id_3
+      columns: [relationship_id]
+
+relationship:
+  primary_key:
+    name: pk_relationship
+    columns: [relationship_id]
+  indexes:
+    - name: idx_relationship_rel_id
+      columns: [relationship_id]
+      clustered: true
+
+concept_synonym:
+  primary_key:
+    name: pk_concept_synonym
+    columns: [concept_id, concept_synonym_name]
+  indexes:
+    - name: idx_concept_synonym_id
+      columns: [concept_id]
+      clustered: true
+
+concept_ancestor:
+  primary_key:
+    name: pk_concept_ancestor
+    columns: [ancestor_concept_id, descendant_concept_id]
+  indexes:
+    - name: idx_concept_ancestor_id_1
+      columns: [ancestor_concept_id]
+      clustered: true
+    - name: idx_concept_ancestor_id_2
+      columns: [descendant_concept_id]
+
+source_to_concept_map:
+  primary_key:
+    name: pk_source_to_concept_map
+    columns: [source_code, source_vocabulary_id, target_concept_id]
+  indexes:
+    - name: idx_source_to_concept_map_3
+      columns: [target_concept_id]
+      clustered: true
+    - name: idx_source_to_concept_map_1
+      columns: [source_vocabulary_id]
+    - name: idx_source_to_concept_map_2
+      columns: [target_vocabulary_id]
+    - name: idx_source_to_concept_map_c
+      columns: [source_code]
+
+drug_strength:
+  primary_key:
+    name: pk_drug_strength
+    columns: [drug_concept_id, ingredient_concept_id]
+  indexes:
+    - name: idx_drug_strength_id_1
+      columns: [drug_concept_id]
+      clustered: true
+    - name: idx_drug_strength_id_2
+      columns: [ingredient_concept_id]
+

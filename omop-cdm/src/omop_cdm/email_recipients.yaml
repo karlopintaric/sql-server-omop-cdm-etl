@@ -1,0 +1,15 @@
+admins:
+  - admin@example.com
+  - dataops@example.com
+
+jobs:
+  load_csvs:
+    - admin@example.com
+  build_static_entities:
+    - admin@example.com
+  transform_event_data:
+    - admin@example.com
+  run_all_data_quality:
+    - admin@example.com
+  export_to_s3:
+    - admin@example.com

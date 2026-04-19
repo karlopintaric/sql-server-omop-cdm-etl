@@ -1,0 +1,6 @@
+load_from:
+  - python_file:
+      relative_path: omop-cdm/src/omop_cdm/definitions.py
+      executable_path: omop-cdm/.venv/bin/python
+      working_directory: omop-cdm/
+      location_name: omop_cdm

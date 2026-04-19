@@ -1,0 +1,65 @@
+services:
+  # PostgreSQL database for Dagster metadata
+  postgres:
+    image: postgres:18
+    container_name: dagster-postgres
+    ports:
+      - "5455:5432"
+    environment:
+      - POSTGRES_USER=${DAGSTER_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${DAGSTER_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${DAGSTER_POSTGRES_DB}
+    restart: unless-stopped
+    volumes:
+      - dagster_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DAGSTER_POSTGRES_USER} -d ${DAGSTER_POSTGRES_DB}']
+      interval: 10s
+      timeout: 8s
+      retries: 5
+
+  # Traefik - Set to network_mode: host to reach 127.0.0.1:3000
+  traefik:
+    image: traefik:v3.6
+    container_name: traefik
+    network_mode: host
+    restart: unless-stopped
+    env_file:
+      - .env
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --api.dashboard=true
+      - --providers.file.directory=/dynamic
+      - --providers.file.watch=true
+      - --entrypoints.websecure.forwardedHeaders.insecure=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./auth/certs:/certs:ro
+      - ./auth/dynamic:/dynamic:ro
+
+  # OAuth2 Proxy - Still inside Docker network, but accessible via Traefik Host Mode
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.13.0
+    container_name: oauth2-proxy
+    # Use host network so it can also reach keycloak and traefik easily
+    network_mode: host
+    env_file:
+      - .env
+    environment:
+      - OAUTH2_PROXY_PROVIDER=oidc
+      - OAUTH2_PROXY_EMAIL_DOMAINS=*
+      - OAUTH2_PROXY_REDIRECT_URL=https://${ETL_HOST}/oauth2/callback
+    command:
+      - --http-address=0.0.0.0:4180
+      - --upstream=static://202
+      - --cookie-secure=true
+      - --cookie-domain=${OAUTH2_PROXY_COOKIE_DOMAIN}
+      - --set-authorization-header=true
+      - --pass-access-token=true
+      - --reverse-proxy=true
+
+volumes:
+  dagster_data:
