@@ -2,6 +2,8 @@
 
 Dagster + dbt workspace for OMOP CDM ETL on SQL Server.
 
+![Asset Lineage](docs/asset-lineage.png)
+
 This repository includes:
 
 - ETL code and jobs in `omop-cdm/src/omop_cdm`
